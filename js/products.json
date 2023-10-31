@@ -1,0 +1,24 @@
+[
+    {
+        "id":1,
+        "tittle":"Apple MacBook Air13",
+        "itemsInBox": 3,
+        "price":120000,
+        "imgSrc":"MacPro.png"
+    },
+    {
+        "id":2,
+        "tittle":"Apple MacBook Air13",
+        "itemsInBox": 3,
+        "price":120000,
+        "imgSrc":"MacPro.png"
+    },
+    {
+        "id":3,
+        "tittle":"Apple MacBook Air13",
+        "itemsInBox": 3,
+        "price":120000,
+        "imgSrc":"MacPro.png"
+    }
+
+]

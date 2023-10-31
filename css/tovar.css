@@ -1,0 +1,341 @@
+* {
+    font-family: 'Raleway', sans-serif;
+ }
+ 
+ html,
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6 {
+    color: #5c5b5b;
+ }
+ 
+ body {
+    background-color: #eceaea;
+ }
+ 
+ a {
+    text-decoration: none;
+    color: inherit;
+ }
+ 
+ input {
+    padding: 10px 12px;
+    display: block;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #5c5b5b;
+    line-height: 1.5rem;
+    color: #4444;
+ }
+ /*
+     Header
+  */
+ header {
+    background: #ff6633;
+    height: 70px;
+ }
+ 
+ header * {
+    color: #fff;
+ }
+ 
+ header h1 {
+    margin-top: 13px;
+ }
+ 
+ header h1 a:hover {
+    margin-top: 13px;
+    color: #fff;
+ }
+ 
+ header ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    float: right;
+ }
+ 
+ header ul li {
+    float: left;
+    position: relative;
+ }
+ 
+ header ul li a {
+    display: block;
+    font-size: 1.2rem;
+    transition: 0.5s;
+    text-decoration: none;
+    padding: 20px;
+ }
+ 
+ header ul li a:hover {
+    background: #006669;
+    transition: 0.5s;
+    color: #fff;
+ }
+ 
+ header ul li ul {
+    position: absolute;
+    top: 70px;
+    right: 0px;
+    width: 180px;
+    display: none;
+    z-index: 88888;
+ }
+ 
+ header ul li:hover ul {
+    display: block;
+ }
+ 
+ header ul li ul li {
+    width: 100%;
+ }
+ 
+ header ul li ul li a {
+    background: #fff;
+ }
+
+
+.tovar_image{
+    display: block;
+    max-width:300px;
+    max-height:300px;
+    width: 100%;
+    height: 100%;
+ }
+.tovar_top{
+    display: flex;
+    flex-direction: row;
+    flex:0 0 220px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #0000
+}
+.img{
+    display: block;
+    margin: auto;
+    max-width: 200px;
+    max-height: 300px;
+    border-radius: 10px;
+}
+
+.row2{
+ display: flex;
+ flex-direction: row;
+
+
+}
+.container_price{
+    border-radius: 5px;
+    min-height: 150px;
+    background: #e2dede;
+    min-width: 600px;
+}
+.row_container_price{
+    padding-top: 10px;
+    min-width: 500px;
+    min-height: 50px;
+    display:flex;
+    flex-direction: row;
+    gap: 30px;
+    position: relative;
+
+
+}
+.tovar_price{
+     margin-left: 6px;
+    position: absolute;
+    width: 380px;
+    min-height: 50px;
+    border:2px solid #0000;
+    background-color: #d3d3d3;
+    border-radius: 10px;
+}
+
+
+.card__add {
+    position: absolute;  
+    right: 0;
+    min-width: 120px; 
+     margin-right: 15px;
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 400;
+    font-size: 17px;
+    color: #70c05b;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #70c05b;
+    border-radius: 4px;
+    cursor: pointer;
+    /* Меняем курсор при наведении */
+    transition: 0.2s;
+    margin-top: auto;
+    /* Прижимаем кнопку к низу карточки */
+ }
+ 
+ .card__add:hover {
+    border: 1px solid #ff6633;
+    background-color: #ff6633;
+    color: #fff;
+    margin-bottom: 30px;
+ }
+
+ .like{
+    position: absolute;  
+    right: 150px;
+    display: block;
+    min-height: 47px;
+    min-width: 47px;
+    margin-bottom: 12px;
+    font-weight: 400;
+    font-size: 17px;
+    color: #70c05b;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #70c05b;
+    border-radius: 4px;
+    cursor: pointer;
+    /* Меняем курсор при наведении */
+    transition: 0.2s;
+    margin-top: auto;
+    /* Прижимаем кнопку к низу карточки */
+ }
+.like:hover{
+    border: 1px solid #ff6633;
+    background-color: #ff6633;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.delivery{
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 150px;
+    max-width: 170px;
+    min-height: 45px;
+
+    text-align: center;
+    border-radius: 10px;
+    align-items: center;
+    background: #d3d3d3;
+    
+}
+.delivery p{
+    padding-top: 13px;
+}
+
+.garanty{
+    margin-top: 20px;
+    justify-content: center;
+    width: 150px;
+    
+    min-height: 50px;
+    max-height: 45px;
+    text-align: center;
+    border-radius: 10px;
+    background: #d3d3d3;
+    
+}
+.garanty p{
+    padding-top: 13px;
+}
+
+.row_recomendation{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.description{
+   margin-left: 10px;
+   background: #70c05b;
+   max-width: 812px;
+   border-radius: 5px;
+   background: #e2dede;
+   margin-top: 10px;
+}
+.description p{
+   padding: 15px;
+}
+.description h2{
+   padding-left: 15px;
+}
+
+ .footer {
+    min-height: 100%;
+    display: grid;
+    background-color: #303036;
+    color: #d3d3d3;
+    position: relative;
+ }
+ 
+ .footer .footer-section {
+    padding: 22pxs;
+ }
+ 
+ .footer h3 {
+    margin-top: 10px;
+    color: white;
+ }
+ 
+ .footer .about .contact span {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+ }
+ 
+ .footer .contact-form input {
+    margin-bottom: 8px;
+ }
+ 
+ .footer .contact-form i {
+    color: white;
+ }
+ 
+ .footer .links ul {
+    margin-bottom: 10px;
+ }
+ 
+ .footer .contact-form button {
+    color: white;
+    transition: all .3s;
+ }
+ 
+ .footer .contact-form button:hover {
+    color: #fff;
+    margin-left: 15px;
+    transition: all .3s;
+ }
+ 
+ .footer .about .socials a {
+    border: 1px solid gray;
+    width: 45px;
+    height: 41px;
+    padding-top: 5px;
+    margin-right: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.3em;
+    border-radius: 5px;
+    transition: all .3s;
+    color: #fff;
+ }
+ 
+ .footer .links ul a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    transition: all .3s;
+    color: #fff;
+    text-decoration: none;
+ }
+ 
+ .footer .links ul a:hover {
+    color: white;
+    margin-left: 15px;
+    transition: all .3s;
+ }
