@@ -12,6 +12,7 @@
  }
  body{
     background-color: #fff;
+    height: 100%;
  }
  a{
     text-decoration: none;
@@ -86,9 +87,15 @@ header ul li:hover ul{
    background: #fff;
  }
 
- .container{
-    max-width: 1300px;
-
+ .container2{
+   min-height: 100%;
+   flex: 1 0 auto;
+ }
+ .wrapper{
+   display: flex;
+	flex-direction: column;
+	min-height: 100%;
+   min-height: 1000px;
  }
 
 
@@ -104,6 +111,7 @@ header ul li:hover ul{
     background-color: #EAEFF2;
     opacity: 0.8;
 
+   
     font-weight: 600;
     line-height: 1.2;
     font-size: 18px;
@@ -111,9 +119,16 @@ header ul li:hover ul{
     letter-spacing: 0.2em;
     text-transform: uppercase;
 }
+.cart-header-hid{
+   opacity: 0;
+   min-height: 0;
+   min-width: 0;
+   padding: 0;
+   margin: 0;
+   border: 0;
+}
 .cart-header__tittle{
     grid-column-start: 2;
-
 }
 .cart-footer{
     display: grid;
@@ -127,7 +142,16 @@ header ul li:hover ul{
     text-transform: uppercase;
     font-size: 18px;
 
-    column-gap: 30px;
+    column-gap: 25px;
+}
+.cart-footer-hid{
+   opacity: 0;
+   min-height: 0;
+   min-width: 0;
+   padding: 0;
+   margin: 0;
+   border: 0;
+   
 }
 .cart-footer__count{
     grid-column-start: 2;
@@ -230,12 +254,13 @@ header ul li:hover ul{
     background-color: none;
     background: fixed;
 }
-
   
 .footer{
     background-color:#303036;
     color: #d3d3d3;
     position: relative;
+    flex: 0 1 auto
+
  }
  .footer .footer-section{
     padding: 22pxs;

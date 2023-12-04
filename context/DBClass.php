@@ -1,11 +1,11 @@
 <?php
 class DBClass{
- private $driver = "mysql";
  private $host = "localhost";
  private $db_name = "test_db";
  private $db_user = "root";
  private $db_pass = "";
- private $charset = 'utf8';
+
+
  private $link;
 
 
@@ -15,7 +15,8 @@ public function __construct(){
         $this->$host,
         $this->$db_user,
         $this->$db_pass,
-        $this->$db_name);
+        $this->$db_name
+    );
 }
 
 function __destruct(){
@@ -23,6 +24,6 @@ function __destruct(){
 }
 
 function InsertUser($login,$email = null,$password){
-    $query = "INSERT INTO user (login,password,email) VALUES($login,$password,$email)";
+    $query = "INSERT INTO user (username,password,email) VALUES($login,$password,$email)";
 }
 }

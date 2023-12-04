@@ -1,3 +1,9 @@
+<?php
+
+ include("controllers/user.php");
+ require("path.php");
+ ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -46,27 +52,33 @@
         </div>
     </header>
     <!--Forma-->
-
   <div class="container">
-    <form class="row justify-content-center" method="post" action="register.php" enctype = "multipart/form-data">
+    <form class="row justify-content-center" method="post" action="reg.php" enctype = "multipart/form-data">
       <h2 id="h2">Регистрация</h2>
+      <div class="mb-3 col-12 col-md-4 err">
+          <p><?=$errMsg?></p>
+      </div>
+      <div class="w-100"></div>
         <div class="mb-3 col-12 col-md-4">
           <label for="exampleInputEmail1" class="form-label">Логин</label>
-          <input type="text" name="login" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="text" name="login" value = "<?=$login?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           <div id="emailHelp" class="form-text">Введите логин</div>
-        </div>
+          <p><?=$errLogin?></p>
+        </div>  
 
         <div class="w-100"></div>
         <div class="mb-3 col-12 col-md-4">
           <label for="exampleInputEmail1" class="form-label">Email</label>
-          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="email" name="email" value = "<?=$email?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           <div id="emailHelp" class="form-text">Введите email</div>
+          <p><?=$errEmail?></p>
         </div>
         <div class="w-100"></div>
         <div class="mb-3 col-12 col-md-4">
           <label for="exampleInputPassword1" class="form-label">Пароль</label>
           <input type="password" name="password" class="form-control" id="exampleInputPassword1">
           <div id="emailHelp" class="form-text">Введите пароль</div>
+          <p><?=$errPass?></p>
         </div>
         <div class="w-100"></div>
 
@@ -78,7 +90,7 @@
         <div class="w-100"></div>
 
         <div class="mb-3 col-12 col-md-4">
-        <button  type="submit" class="btn btn-success">Зарегистрироваться</button>
+        <button name = "button-reg" type="submit" class="btn btn-success">Зарегистрироваться</button>
         <a class="autorization" href="#">Авторизоваться</a>
       
       </div>

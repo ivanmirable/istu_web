@@ -224,3 +224,12 @@ header ul li ul li a{
     margin-left: 15px;
     transition: all .3s;
  }
+
+ /*
+ FORMS 
+ */
+ form p{
+   color: red;
+   font-style: italic;
+   font-size: 0.8rem;
+ }

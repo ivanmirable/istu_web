@@ -14,7 +14,6 @@ window.addEventListener('click', (event) => {
       discount: card.querySelector('.card__label').innerText,
     }
 
-
 // заполнение локального хранилища, чтобы при новом нажатии, данные, взятые из прошлого нажатия не пропали
     const existingProducts =
       JSON.parse(localStorage.getItem('productsCart')) || [] //присваивает массив из local storage(хранилище данных, где все в строке), либо пустой массив
@@ -66,7 +65,10 @@ const renderProductsInCart = (() => {
     </div>
     </section>`)
   })
-
+  if (cartItemHtml.length == 0) {
+    document.querySelector('.cart-header').classList.toggle('cart-header-hid')
+    document.querySelector('.cart-footer').classList.toggle('cart-footer-hid')
+  }
   if (actualProductsCart) {
     productsInCart.insertAdjacentHTML('afterbegin', cartItemHtml)
   }
@@ -74,7 +76,10 @@ const renderProductsInCart = (() => {
 
 window.addEventListener("load", function() {
   calcCartPrice()
+  const existingProducts = JSON.parse(localStorage.getItem('productsCart'))
+  console.log(existingProducts)
 }, false); 
+
 window.addEventListener('click', function (event) {
   $flag = false
   if (event.target.id === 'up__img' || event.target.id === 'down__img') {
@@ -111,6 +116,7 @@ window.addEventListener('click', function (event) {
     const productElement = event.target.closest('.product')
     const productTitle =
       productElement.querySelector('.product__tittle').innerText
+  
 
     productElement.remove()
 
@@ -119,7 +125,12 @@ window.addEventListener('click', function (event) {
     const updatedProducts = existingProducts.filter(
       (product) => product.title !== productTitle,
     )
-
+    if (updatedProducts.length==0) {
+      console.log(existingProducts.length)
+    
+      document.querySelector('.cart-header').classList.add('cart-header-hid')
+      document.querySelector('.cart-footer').classList.add('cart-footer-hid')
+    }
     localStorage.setItem('productsCart', JSON.stringify(updatedProducts))
 
     calcCartPrice()
