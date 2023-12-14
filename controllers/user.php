@@ -5,7 +5,9 @@
     $errLogin ='';
     $errEmail ='';
     $errPass ='';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Код для формы регистрации
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button-reg'])) {
+
     $login = trim($_POST['login']);//trim удаляет пробелы
     $email =trim( $_POST['email']);
     $passF = trim($_POST['repeat_password']);
@@ -45,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'admin' => $admin,
             'username' => $login,
             'email' => $email,
-            'admin' => $admin,
             'password'=> $pass
           ];
         $id = Insert('user',$post);
@@ -53,14 +54,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id'] = $user['id'];
         $_SESSION['login'] = $user['username'];
         $_SESSION['admin'] = $user['admin'];
-        header('location: ' . BASE_URL);
-        tt($_SESSION);
-        exit();
+
+        if ($_SESSION['admin']) {
+            header('location:'. BASE_URL . "admin/posts/index.php");
+        }
+        else{
+            header('location: ' . BASE_URL);
+        }
     }
 
 }
 else {
-    echo 'GET';
+
     $login = '';
+    $email ='';
+}
+
+if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['button-log'])) {
+
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['password']);
+    if ($email ==='' || $pass==='') {
+        $errMsg = "Не все поля заполнены";
+    }
+    else{
+        $existance = selectOne('user',['email'=>$email]);// массив с пользователем
+        if ($existance && password_verify($pass, $existance['password'])) {
+            $_SESSION['id'] = $existance['id'];
+            $_SESSION['login'] = $existance['username'];
+            $_SESSION['admin'] = $existance['admin'];
+    
+            if ($_SESSION['admin']) {
+                header('location:'. BASE_URL . "admin/posts/index.php");
+            }
+            else{
+                header('location: ' . BASE_URL);
+            }
+        }else{
+            $errMsg = "Данные не верные";
+        }
+    }
+
+}else{
     $email ='';
 }

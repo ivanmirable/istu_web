@@ -7,6 +7,7 @@ function tt($value){
    echo '<pre>';
    print_r($value);
    echo'</pre>';
+   exit();
 }
 
 // Запрост а получение данных из одной таблицы
@@ -179,7 +180,7 @@ $arrData = [
 function Delete($table,$id){
    global $connection;
    $i = 0;
-   $sql = "DELETE FROM $table WHERE id = $id";
+   $sql = "DELETE FROM $table WHERE id =". $id;
 
    $query = $connection ->prepare($sql);
    $query -> execute();

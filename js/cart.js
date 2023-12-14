@@ -116,10 +116,8 @@ window.addEventListener('click', function (event) {
     const productElement = event.target.closest('.product')
     const productTitle =
       productElement.querySelector('.product__tittle').innerText
-  
 
-    productElement.remove()
-
+    productElement.remove()  
     
     const existingProducts = JSON.parse(localStorage.getItem('productsCart'))
     const updatedProducts = existingProducts.filter(

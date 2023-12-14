@@ -1,6 +1,6 @@
 const btnUp = document.querySelector('[class="count__up"]')
 const btnDown = document.querySelector('[class="count__down"]')
-const counter = document.getElementById('inp1')
+const counter = document.getElementById('inp2')
 
 btnUp.addEventListener('click', function () {
   console.log('Up Click')

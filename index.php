@@ -1,3 +1,8 @@
+<?php include("path.php");
+include("context/db.php");
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,34 +22,7 @@
     <title>Мой блог</title>
   </head>
   <body>
-    <header class="container-fluid">
-        <div class = "container">
-            <div class ="row">
-                <div class="col-4">
-                    <h1>
-                       <a href="/">Страница</a>  
-                    </h1>
-                </div>
-                <nav class="col-8">
-                    <ul>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Услуги</a></li>
-                        <li>
-                            <a href="#">
-
-                                <i class="fa fa-user"></i> Кабинет</a>
-                            <ul>
-                                <li><a href="reg.php">Админ панель</a></li>
-                                <li><a href="#">Выход</a></li>
-                                <li><a href="1.html?">Корзина</a> </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+  <?php include("include/header.php");?>
     <!--блок карусели-->
     <div class= "container">
       <div class="row">
@@ -288,65 +266,10 @@
         </div>
         </div>
             <!--sidebar col-md-3-->
-
     </div>
   </div>
 
-  <div class="footer container-fluid">
-    <div class="footer-content container">
-        <div class="row">
-            <div class="footer-section about col-md-4 col-12">
-              <h3 class="logo-text">Страница</h3>
-              <p>
-                Что то о странице....
-              </p>
-              <div class="contact">
-                <span><i class="fas fa-phone"></i></span>
-                <span><i class="fas fa-envelope"></i></span>
-              </div>
-              <div class="socials">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-              </div>
-            </div>
-
-            <div class="footer-section links col-md-4 col-12">
-              <h3> Links</h3>
-              <br>
-              <ul>
-                  <a href="#">
-                    <li> События</li>
-                  </a>
-                  <a href="#">
-                    <li> Команда</li>
-                  </a>
-                  <a href="#">
-                    <li> Упражнения</li>
-                  </a>
-                  <a href="#">
-                    <li> Галлерея</li>
-                  </a>
-                  <a href="#">
-                    <li> Что-то ещё</li>
-                  </a>
-              </ul>
-            </div>
-            <div class="footer-section contact-form col-md-4 col-12">
-              <h3>Контакты</h3>
-              <br>
-              <form action="index.html" method="post">
-                  <input type="email" name="email" class="text-input contact-input" placeholder="Your email address...">
-                  <textarea rows="4" name="message" class="text-input contact-input" placeholder="Your message"></textarea>
-                  <button type="submit" class="btn brn-big contact-btn">
-                    <i class="fas fa-envelope"></i>
-                    Отправить
-                  </button>
-              </form>
-            </div>
-        </div>
-    </div>
+  <?php include("include/footer.php");?>
   </div>
  
     <!--sidebar col-md-3-->
