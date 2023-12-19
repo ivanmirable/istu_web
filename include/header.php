@@ -20,10 +20,10 @@
                             </a>
                             <ul>
                                 <?php if ($_SESSION['admin']==1):?>
-                                        <li><a href="reg.php">Админ панель</a></li>
+                                        <li><a href="<?php echo BASE_URL. "admin/posts/index.php";?>">Админ панель</a></li>
                                     <?php endif;?>
                                         <li><a href="<?php echo BASE_URL. "logout.php";?>">Выход</a></li>
-                                        <li><a href="1.html?">Корзина</a> </li>
+                                        <li><a href="<?php echo BASE_URL. "1.php";?>">Корзина</a> </li>
                             </ul>
                             <?php else: ?>
                                 <a href="<?php echo BASE_URL . "log.php";?>">

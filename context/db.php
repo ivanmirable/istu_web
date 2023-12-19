@@ -57,11 +57,9 @@ function selectOne($table,$params =[]){
          $i++;
       }
    }
-
-
    $query = $connection->prepare($sql);
    $query->execute();
-  dbCheckError($query);
+   dbCheckError($query);
    $date = $query->fetch();
 
   return $date;
@@ -172,9 +170,7 @@ function Update($table, $id, $params){
     
 }
 $arrData = [
- 
    'password'=>'ENG',
- 
 ];
 
 function Delete($table,$id){
@@ -186,4 +182,38 @@ function Delete($table,$id){
    $query -> execute();
    dbCheckError($query);
     
+}
+// Выборка записей(товары) с автором в админку
+function selectAllFromPostsWithUsers($table1,$table2){
+   global $connection;
+   $sql = "SELECT 
+      t1.id,
+      t1.tittle,
+      t1.img,
+      t1.price,
+      t1.status,
+      t1.category,
+      t1.created_data,
+      t2.username
+    FROM $table1 AS t1 JOIN $table2 AS t2 ON t1.admin = t2.id";
+   $query = $connection ->prepare($sql);
+   $query -> execute();
+   dbCheckError($query);
+   return $query->fetchAll();
+}
+
+function selectAllFromPostsWithCart($table1,$table2){
+   global $connection;
+   $sql = "SELECT 
+      t1.id,
+      t1.tittle,
+      t1.img,
+      t1.price,
+      t1.status,
+      t1.category
+    FROM $table1 AS t1 JOIN $table2 AS t2 ON t1.id = t2.articule";
+   $query = $connection ->prepare($sql);
+   $query -> execute();
+   dbCheckError($query);
+   return $query->fetchAll();
 }

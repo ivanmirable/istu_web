@@ -1,9 +1,11 @@
 
-<?php session_start();
+<?php 
 include("../../path.php");
+include("../../controllers/posts.php");
+
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -37,28 +39,32 @@ include("../../path.php");
                 </div>
 
                 <div class="row add-post">
-                    <form action="created.php" method = "post">
+                    <form action="created.php" enctype="multipart/form-data" method = "post">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Tittle" aria-label="Название товара">
+                            <input type="text" name="tittle"  class="form-control" placeholder="Tittle" aria-label="Название товара">
                          </div>
                          <div class="col">
                             <label for="exampleFormControlTextarea1" class="form-label">Описание товара</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea name="price" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         </div>
                         <div>Загрузить картинку</div>
                         <div class="input-group col">
-                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <input name="img" type="file" class="form-control" id="inputGroupFile02">
                             <label class="input-group-text" for="inputGroupFile02">Upload</label>
                         </div>
                         <div>Выбор категории</div>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select name="topics" class="form-select" aria-label="Default select example">
+                            <option selected>Категория товара</option>
+                            <?php foreach($topics as $key=> $topic):?>
+                              <option value="<?=$topic['id'];?>"><?=$topic['name'];?></option>
+                              <?php endforeach;?>
                         </select>
+                        <div class="col col-6">
+                          <input value="1" name ="publish" type="checkbox">
+                          <label>publish</label>
+                        </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Сохранить запись</button>
+                            <button name="add_post" class="btn btn-primary" type="submit">Добавить запись</button>
                         </div>    
                     </form>
                 </div>

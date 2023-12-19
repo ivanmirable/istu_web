@@ -1,6 +1,8 @@
-<?php include("path.php");
-include("context/db.php");
-
+<?php 
+session_start();
+include("path.php");
+include("controllers/topics.php");
+$posts = selectAll('posts', ['status'=>1]); 
 ?>
 
 <!doctype html>
@@ -73,15 +75,17 @@ include("context/db.php");
             <div class="row">
              <h2>Новые публикации</h2>
               <!-- Карточка товара -->
-              <div class="col-md-6" id="1">
+              <?php foreach ($posts as $post): ?>
+            <form method = "post" enctype="multipart/form-data" class="col-md-6"  action = "index.php">
+              <input type="hidden" name="id" value="<?=$post['id']?>">
                   <div class="card md-4" data-id="1" id="1">
                     <!-- Верхняя часть -->
                     <div class="card__top">
                       <!-- Изображение-ссылка товара -->
                       <a href="#" class="card__image">
                         <img
-                          src="./image/iphone-14-pro-max-gold.png"
-                          alt="Apple IPhone 14 PRO Max Gold"
+                          src="<?=BASE_URL . 'img/posts/' . $post['img'];?>"
+                          alt="<?=$post['tittle'];?>"
                         />
                       </a>
                       <!-- Скидка на товар -->
@@ -92,17 +96,18 @@ include("context/db.php");
                       <!-- Цены на товар (с учетом скидки и без)-->
                       <div class="card__prices">
                         <div class="card__price card__price--discount">135000</div>
-                        <div class="card__price card__price--common">150000</div>
+                        <div class="card__price card__price--common"><?=$post['price']?></div>
                       </div>
                       <!-- Ссылка-название товара -->
-                      <a href="#" class="card__title">
-                        AppleWatch 2
+                      <a href="" class="card__title">
+                        <?=$post['tittle']?>
                       </a>
                       <!-- Кнопка добавить в корзину -->
-                      <a href=""> <button data-cart class="card__add"> В корзину</button></a>              
+                    <button name ="add_cart_button" type="submit" data-cart class="card__add"> В корзину</button>         
                       </div>
                   </div>
-              </div>
+              </form>
+              <?php endforeach;?>
                   <div class="col-md-6" id="2">
                     <div class="card md-4" data-id="2" id="2">
                       <!-- Верхняя часть -->
@@ -255,12 +260,11 @@ include("context/db.php");
           <div class="section topics">
             <h3>Категории</h3>
             <ul class="forfilter" >
-              <li data-id="1" id="1"><a id="1">Категория - 1</a></li>
-              <li data-id="2" id="2"><a id="2">Категория - 2</a></li>
-              <li data-id="3" id="3"><a id="3" >Категория - 3</a></li>
-              <li data-id="4" id="4"><a id="4">Категория - 4</a></li>
-              <li data-id="5" id="5"><a id="5">Категория - 5</a></li>
-              <li data-id="6" id="6"><a id="6">Все товары</a></li>
+              <?php foreach ($topics as $key => $topic):?>
+              <li data-id="1" id="1">
+                <a id="1"><?=$topic['name'];?></a>
+              </li>
+              <?php endforeach;?>
             </ul>
           </div>
         </div>

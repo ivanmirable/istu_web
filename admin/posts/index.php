@@ -1,6 +1,7 @@
 
 <?php session_start();
 include("../../path.php");
+include("../../controllers/posts.php");
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,32 +35,28 @@ include("../../path.php");
                 <div class="row tittle-table">
                     <h2>Управление записями</h2>
                     <div class="col-1">ID</div>
-                    <div class="col-5">Название</div>
-                    <div class="col-2">Цена</div>
-                    <div class="col-4">Управление</div>
+                    <div class="col-4">Название</div>
+                    <div class="col-1">Цена</div>
+                    <div class="col-2">Автор</div>
+                    <div class="col-3">Управление</div>
              
                 </div>
+                <?php foreach($postsAdm as $key=> $post):?>
+
                 <div class="row post">
-                    <div class="id col-1">1</div>
-                    <div class="tittle col-5">Товар</div>
-                    <div class="price col-2">10000</div>
-                    <div class="red col-2"><a href="">edit</a></div>
-                    <div class="del col-2"><a href="">delete</a></div>
+                    <div class="id col-1"><?=$key+1;?></div>
+                    <div class="tittle col-4"><?=$post['tittle'];?></div>
+                    <div class="price col-1"><?=$post['price'];?></div>
+                    <div class="price col-2"><?=$post['username'];?></div>
+                    <div class="red col-1"><a href="edit.php?id=<?=$post['id'];?>">edit</a></div>
+                    <div class="del col-1"><a href="edit.php?delete_id=<?=$post['id'];?>">delete</a></div>
+                    <?php if($post['status']):?>
+                    <div class="status col-2"><a href="edit.php?publish=0&pub_id=<?=$post['id'];?>">unpublish</a></div>
+                    <?php else:?>
+                      <div class="status col-2"><a href="edit.php?publish=1&pub_id=<?=$post['id'];?>">publish</a></div>
+                      <?php endif;?>
                 </div>
-                <div class="row post">
-                    <div class="id col-1">1</div>
-                    <div class="tittle col-5">Товар</div>
-                    <div class="price col-2">10000</div>
-                    <div class="red col-2"><a href="">edit</a></div>
-                    <div class="del col-2"><a href="">delete</a></div>
-                </div>
-                <div class="row post">
-                    <div class="id col-1">1</div>
-                    <div class="tittle col-5">Товар</div>
-                    <div class="price col-2">10000</div>
-                    <div class="red col-2"><a href="">edit</a></div>
-                    <div class="del col-2"><a href="">delete</a></div>
-                </div>
+                <?php endforeach;?>
             </div>
         </div>
     </div>

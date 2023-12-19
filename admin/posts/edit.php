@@ -1,11 +1,11 @@
 
-<?php session_start();
+<?php 
 include("../../path.php");
-include("../../controllers/topics.php");
+include("../../controllers/posts.php");
 
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -28,31 +28,48 @@ include("../../controllers/topics.php");
         <div class="row">
         <?php include ("../../include/sidebar-admin.php");?>
             <div class="posts col-9">
-                <div class="button row">
-                    <a href="<?php echo BASE_URL .  "admin/topics/created.php";?>" class = "col-2 btn btn-success">Создать </a>
+            <div class="button row">
+                    <a href="<?php echo BASE_URL .  "admin/posts/create.php";?>" class = "col-2 btn btn-success">Создать</a>
                     <span class="col-1"></span>
-                    <a href="<?php echo BASE_URL .  "admin/topics/index.php";?>" class = "col-2 btn btn-warning">Управлять</a>
+                    <a href="<?php echo BASE_URL .  "admin/posts/index.php";?>" class = "col-2 btn btn-warning">Редактировать</a>
                 </div>
                 <div class="row tittle-table">
-                    <h2>Редактировать категорию</h2>
+                    <h2>Добавление записи</h2>
+
                 </div>
 
                 <div class="row add-post">
-                <div class="mb-3 col-12 col-md-4 err">
-                     <p><?=$errMsg?></p>
-                </div>
-                    <form action="edit.php" method = "post">
-                      <input type="hidden" name = "id" value = "<?=$id?>">
-                      <input type="hidden" name="namerep" value="<?=$name;?>">
+                    <form action="edit.php"  enctype="multipart/form-data" method = "post">
+                    <input type="hidden"  value ="<?=$id;?>" name="id">
                         <div class="col">
-                            <input type="text"name="name" value ="<?=$name;?>" class="form-control" placeholder="Название категории" aria-label="Название категории">
+                            <input type="text" name="tittle" value ="<?=$post['tittle'];?>"  class="form-control" placeholder="Tittle" aria-label="Название товара">
                          </div>
                          <div class="col">
-                            <label for="exampleFormControlTextarea1" class="form-label">Описание Категории</label>
-                            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"><?=$description;?></textarea>
+                            <label for="exampleFormControlTextarea1" class="form-label">Описание товара</label>
+                            <textarea name="price" class="form-control" id="exampleFormControlTextarea1" rows="3"><?=$post['price'];?></textarea>
+                        </div>
+                        <div>Загрузить картинку</div>
+                        <div class="input-group col">
+                            <input name="img" type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                        </div>
+                        <div>Выбор категории</div>
+                        <select name="topics" class="form-select" aria-label="Default select example">
+                            <?php foreach($topics as $key=> $topic):?>
+                              <option value="<?=$topic['id'];?>"><?=$topic['name'];?></option>
+                              <?php endforeach;?>
+                        </select>
+                        <div class="col col-6">
+                            <?php if (empty($publish) && $publish ==0):?>
+                          <input  name ="publish"  type="checkbox">
+                          <label>publish</label>
+                          <?php else: ?>
+                            <input checked   name ="publish" type="checkbox">
+                          <label>publish</label>
+                          <?php endif;?>
                         </div>
                         <div class="col-12">
-                            <button name="topic-edit" class="btn btn-primary" type="submit">Обновить категорию</button>
+                            <button name="edit_post" class="btn btn-primary" type="submit">Сохранаить запись</button>
                         </div>    
                     </form>
                 </div>
@@ -60,8 +77,11 @@ include("../../controllers/topics.php");
             </div>
         </div>
     </div>
+
   <?php include("../../include/footer.php");?>
   </div>
+ 
+
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="./js/renderProducts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
