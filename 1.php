@@ -3,7 +3,9 @@ session_start();
 include("path.php");
 include("controllers/topics.php");
 $cart = selectAll('cart');
-$posts = selectAllFromPostsWithCart('posts','cart');
+$email = selectOne('user',['id'=>$_SESSION['id']]);
+$posts = selectAllFromPostsWithCart('posts','cart','ordep',$email['email']);
+
 ?>
 
 <!DOCTYPE html>
@@ -84,15 +86,15 @@ $posts = selectAllFromPostsWithCart('posts','cart');
                     <img src="./img/image_4.png" alt="Increase" id="up__img">
                 </button>
                 <button class="count__down" type="button" data-action="down">
-                    <img src="./img/image_5.jpg" alt="Decrease" id = "down__img" >
+                   <img src="./img/image_5.jpg" alt="Decrease" id = "down__img" >
                 </button>
             </div>
         </div>
     </div>
     <div class="product__price"><?=$post['price'];?></div>
     <div class="product__controls">
-        <button type="button" id="delete_button" >
-            <img src="./img/delete_button.png">
+        <button name = "del_cart" type="button" id="delete_button" >
+          <a href="index.php?deleted_id=<?=$post['id'];?>"><img src="./img/delete_button.png"></a> 
         </button>
     </div>
     </section>
@@ -171,7 +173,7 @@ $posts = selectAllFromPostsWithCart('posts','cart');
   </div>
     <!--Корзина-->
     <script src="./js/renderProducts.js"></script>
-    <script src="./js/cart.js"></script>
+  
     <script src="./js/calcCartPrice.js"></script>
   </body>
 </html>

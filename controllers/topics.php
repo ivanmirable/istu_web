@@ -8,8 +8,10 @@ $description = '';
 $topics = selectAll('category');
 $repeatName='';
 $email = selectOne('user',['id'=>$_SESSION['id']]);
+
 if (selectOne('ordep',['email'=>$email['email']])) {
     $order = selectOne('ordep',['email'=>$email['email']]);
+
 }
 else{
     $order = '';
@@ -95,12 +97,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['del_id'])) {
 
 //Добавление в корзину товара(поста)
 if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
-
     $id = $_POST['id'];
     $post = selectOne('posts',['id'=> $id]);
+
     $user = selectOne('user',['id'=>$_SESSION['id']]);
+  
     $count = selectOne('cart',['id'=>$id]);
-    if (selectOne('cart',['id'=>$post['id']])) {
+    $cartFilter = [
+        'id'=>$id,
+        'email'=>$user['email'],
+    ];
+    if (selectOne('cart',$cartFilter) && selectOne('ordep',['email'=>$user['email']]) ) {
+        echo "Я тут";
         if(selectOne('cart',['id'=>$id])){
          $count = selectOne('cart',['id'=>$id]);
          $idCart = update('cart',$id,['count'=>$count['count']+1]);
@@ -122,16 +130,29 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
           ];
           $id = Insert('ordep',$order);
           $idCart = Insert('cart',$orderCart);
-          
-
     }
     else{
         $orderCart = [
             'email' => $user['email'],
             'buy_date'=>$order['buy_date'],
             'id'=>$id,
-          ];
+        ];
+     
           $idCart = Insert('cart',$orderCart);
     }
 }
 }
+else{
+    echo 'GET';
+}
+
+//Удаление из Корзины
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deleted_id'])) {
+    $id = $_GET['deleted_id'];
+    $user = selectOne('user',['id'=>$_SESSION['id']]);
+    DeleteCart('cart',$id,$user['email']);
+    header('location:' . BASE_URL . '1.php');
+
+}
+
+

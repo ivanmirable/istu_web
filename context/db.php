@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-
 require('index2.php');
 function tt($value){
    echo '<pre>';
@@ -169,6 +168,32 @@ function Update($table, $id, $params){
    dbCheckError($query);
     
 }
+function UpdateForCart($table, $id, $params){
+   global $connection;
+
+   $i =0;
+   $str = '';
+   $length = count($params);
+   foreach($params as $key => $value){
+      if ($i == $length-1) {
+         $value = "'".$value."'";
+         $key = "`" .$key. "`";
+      }
+      else{
+         $key = "`" .$key. "`";
+         $value = "'".$value."'".",";
+      }
+  
+      $str = $str." ". $key . "=" . $value;
+      $i++;
+   }
+   $sql = "UPDATE $table SET $str WHERE articule = $id";
+
+   $query = $connection ->prepare($sql);
+   $query -> execute($params);
+   dbCheckError($query);
+    
+}
 $arrData = [
    'password'=>'ENG',
 ];
@@ -177,6 +202,16 @@ function Delete($table,$id){
    global $connection;
    $i = 0;
    $sql = "DELETE FROM $table WHERE id =". $id;
+
+   $query = $connection ->prepare($sql);
+   $query -> execute();
+   dbCheckError($query);
+    
+}
+function DeleteCart($table,$id,$email){
+   global $connection;
+   $i = 0;
+   $sql = "DELETE FROM $table WHERE id =" . $id. " AND email ="."'" .$email."'";
 
    $query = $connection ->prepare($sql);
    $query -> execute();
@@ -195,14 +230,15 @@ function selectAllFromPostsWithUsers($table1,$table2){
       t1.category,
       t1.created_data,
       t2.username
-    FROM $table1 AS t1 JOIN $table2 AS t2 ON t1.admin = t2.id";
+    FROM $table1 AS t1 
+    JOIN $table2 AS t2  ON t1.admin = t2.id ";
    $query = $connection ->prepare($sql);
    $query -> execute();
    dbCheckError($query);
    return $query->fetchAll();
 }
 
-function selectAllFromPostsWithCart($table1,$table2){
+function selectAllFromPostsWithCart($table1,$table2,$table3,$email){
    global $connection;
    $sql = "SELECT 
       t1.id,
@@ -210,9 +246,14 @@ function selectAllFromPostsWithCart($table1,$table2){
       t1.img,
       t1.price,
       t1.status,
-      t1.category
-    FROM $table1 AS t1 JOIN $table2 AS t2 ON t1.id = t2.articule";
+      t1.category,
+      t2.email
+    FROM $table1 AS t1 
+    Inner JOIN $table2 AS t2  ON t1.id = t2.id
+    AND t2.email="."'".$email."'";
+  
    $query = $connection ->prepare($sql);
+  
    $query -> execute();
    dbCheckError($query);
    return $query->fetchAll();
