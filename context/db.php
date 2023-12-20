@@ -105,9 +105,6 @@ $params = [
    'admin' => 0,
    'username' => "andrei"
  ];
-
-
-
 //Запись в бд
 function Insert($table, $params){
    global $connection;
@@ -162,6 +159,32 @@ function Update($table, $id, $params){
       $i++;
    }
    $sql = "UPDATE $table SET $str WHERE id = $id";
+
+   $query = $connection ->prepare($sql);
+   $query -> execute($params);
+   dbCheckError($query);
+    
+}
+function UpdateForOrdep($table, $email, $params,$buy_date){
+   global $connection;
+
+   $i =0;
+   $str = '';
+   $length = count($params);
+   foreach($params as $key => $value){
+      if ($i == $length-1) {
+         $value = "'".$value."'";
+         $key = "`" .$key. "`";
+      }
+      else{
+         $key = "`" .$key. "`";
+         $value = "'".$value."'".",";
+      }
+  
+      $str = $str." ". $key . "=" . $value;
+      $i++;
+   }
+   $sql = "UPDATE $table SET $str WHERE buy_date = $buy_date AND email = "."'" .$email."'" ;
 
    $query = $connection ->prepare($sql);
    $query -> execute($params);
@@ -238,7 +261,7 @@ function selectAllFromPostsWithUsers($table1,$table2){
    return $query->fetchAll();
 }
 
-function selectAllFromPostsWithCart($table1,$table2,$table3,$email){
+function selectAllFromPostsWithCart($table1,$table2,$buy_date,$email){
    global $connection;
    $sql = "SELECT 
       t1.id,
@@ -250,8 +273,9 @@ function selectAllFromPostsWithCart($table1,$table2,$table3,$email){
       t2.email
     FROM $table1 AS t1 
     Inner JOIN $table2 AS t2  ON t1.id = t2.id
+    AND t2.buy_date = $buy_date
     AND t2.email="."'".$email."'";
-  
+   
    $query = $connection ->prepare($sql);
   
    $query -> execute();

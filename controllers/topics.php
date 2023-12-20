@@ -7,15 +7,20 @@ $name = '';
 $description = '';
 $topics = selectAll('category');
 $repeatName='';
+$buy_date = '';
 $email = selectOne('user',['id'=>$_SESSION['id']]);
+$order = selectOne('ordep',['email'=>$email['email'],
+'buy_date'=>$_SESSION['buy_date'],
+]);
 
-if (selectOne('ordep',['email'=>$email['email']])) {
-    $order = selectOne('ordep',['email'=>$email['email']]);
-
+if ($order) {
+    $order = selectOne('ordep',['email'=>$email['email'],
+    'buy_date'=>$_SESSION['buy_date'],]);
 }
 else{
     $order = '';
 }
+
 
 //Создание категории
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-create'])) {
@@ -106,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
     $cartFilter = [
         'id'=>$id,
         'email'=>$user['email'],
+        'buy_date'=>$_SESSION['buy_date'],
     ];
     if (selectOne('cart',$cartFilter) && selectOne('ordep',['email'=>$user['email']]) ) {
         echo "Я тут";
@@ -121,11 +127,12 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
     if ($order === '') {
         $order = [
             'email' => $user['email'],
-            'buy_date'=>time(),
+            'buy_date'=>$_SESSION['buy_date'],
           ];
+
           $orderCart = [
             'email' => $user['email'],
-            'buy_date'=>time(),
+            'buy_date'=> $_SESSION['buy_date'],
             'id'=>$id,
           ];
           $id = Insert('ordep',$order);
@@ -134,13 +141,16 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
     else{
         $orderCart = [
             'email' => $user['email'],
-            'buy_date'=>$order['buy_date'],
+            'buy_date'=>$_SESSION['buy_date'],
             'id'=>$id,
         ];
      
           $idCart = Insert('cart',$orderCart);
     }
+
 }
+header('location:' . BASE_URL . 'index.php');
+
 }
 else{
     echo 'GET';
@@ -152,7 +162,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deleted_id'])) {
     $user = selectOne('user',['id'=>$_SESSION['id']]);
     DeleteCart('cart',$id,$user['email']);
     header('location:' . BASE_URL . '1.php');
-
 }
-
+//Оформление заказа
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_button'])) {
+    $sum = 0;
+    $pay = $_POST['pay_method'];
+    $oplata = time();
+    $adress = $_POST['adress'];
+    $buy_date = (string)$_SESSION['buy_date'];
+    $email = selectOne('user',['id'=>$_SESSION['id']]);
+    $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
+    if ($posts) {
+        foreach($posts as $post){
+            $sum = $sum + $post['price'];
+      }
+      $transaction = [
+          'transaction_number'=>$oplata,
+          'pay_method'=>$pay,
+          'pay_sum'=>$sum,
+      ];
+  
+      $transaction = Insert('transaction',$transaction);
+      $ordep = [
+          'adress_pickup'=>$adress,
+          'transaction_number'=>$oplata,
+      ];
+      $r = UpdateForOrdep('ordep',$email['email'],$ordep,$buy_date);
+       $_SESSION['buy_date'] = time();
+          $order = [
+              'email' => $email['email'],
+              'buy_date'=> $_SESSION['buy_date'],
+            ];
+          $order = Insert('ordep',$order);
+    }
+    else{
+        $errMsg = "Не выбрано ни одного товара!";
+    }
+ 
+}
 

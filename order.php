@@ -6,7 +6,8 @@ $cart = selectAll('cart');
 $buy_date = (string)$_SESSION['buy_date'];
 $email = selectOne('user',['id'=>$_SESSION['id']]);
 $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
-
+$adress = selectAll('pick_up_point');
+$pays = selectAll('pay_method')
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
       src="https://kit.fontawesome.com/e923b74977.js"
       crossorigin="anonymous"></script>
     <!--Custom style-->
-    <link rel="stylesheet" href="css2/style1.css" />
+    <link rel="stylesheet" href="css2/order.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -100,15 +101,37 @@ $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
     </div>
     </section>
     <?php endforeach;?>
-    <div class = "order">
-      <button type="button" class="btn btn-primary"><a href="order.php">Оформить заказ</a></button>
-    </div>
+    
       </div>
       <div class="cart-footer">
         <div class="cart-footer__count">3</div>
         <div class="cart-footer__price">0</div>
       </div>
     </div>
+<form action="order.php" method="post">
+    <div class="w-100"></div>
+    <p><?=$errMsg?></p>
+    <div>Выбирете пункт выдачи</div>
+    <div class="w-100"></div>
+     <select name="adress" class="form-select" aria-label="Default select example">
+            <?php foreach($adress as $key=> $adres):?>
+        <option value="<?=$adres['adress_pickup'];?>"><?=$adres['adress_pickup'];?></option>
+            <?php endforeach;?>
+    </select>
+    <div class="h-100"></div>
+    <div>Выбирете метод оплаты</div>
+     <select name="pay_method" class="form-select" aria-label="Default select example">
+            <?php foreach($pays as $key=> $pay):?>
+        <option value="<?=$pay['pay_method'];?>"><?=$pay['pay_method'];?></option>
+            <?php endforeach;?>
+    </select>
+    <div class="w-100"></div>
+    <div class = "order">
+      <button type="submit" name ="pay_button" class="btn btn-primary">Оплатить</button>
+    </div>
+</form>
+
+
 
 
     <div class="footer container-fluid">
