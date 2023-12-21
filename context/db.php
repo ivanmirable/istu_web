@@ -191,6 +191,34 @@ function UpdateForOrdep($table, $email, $params,$buy_date){
    dbCheckError($query);
     
 }
+
+function UpdateCartCount($table, $id, $params,$buy_date){
+   global $connection;
+
+   $i =0;
+   $str = '';
+   $length = count($params);
+   foreach($params as $key => $value){
+      if ($i == $length-1) {
+         $value = "'".$value."'";
+         $key = "`" .$key. "`";
+      }
+      else{
+         $key = "`" .$key. "`";
+         $value = "'".$value."'".",";
+      }
+  
+      $str = $str." ". $key . "=" . $value;
+      $i++;
+   }
+   $sql = "UPDATE $table SET $str WHERE buy_date = $buy_date AND id = $id" ;
+
+   $query = $connection ->prepare($sql);
+   $query -> execute($params);
+   dbCheckError($query);
+    
+}
+
 function UpdateForCart($table, $id, $params){
    global $connection;
 
@@ -231,10 +259,10 @@ function Delete($table,$id){
    dbCheckError($query);
     
 }
-function DeleteCart($table,$id,$email){
+function DeleteCart($table,$id,$email,$buy_date){
    global $connection;
    $i = 0;
-   $sql = "DELETE FROM $table WHERE id =" . $id. " AND email ="."'" .$email."'";
+   $sql = "DELETE FROM $table WHERE buy_date =" .$buy_date. " AND id =" . $id. " AND email ="."'" .$email."'";
 
    $query = $connection ->prepare($sql);
    $query -> execute();
@@ -242,7 +270,29 @@ function DeleteCart($table,$id,$email){
     
 }
 // Выборка записей(товары) с автором в админку
-function selectAllFromPostsWithUsers($table1,$table2){
+function selectAllFromPostsWithUsers($table1,$table2,$buy_date){
+   global $connection;
+   $sql = "SELECT 
+      t1.id,
+      t1.tittle,
+      t1.img,
+      t1.price,
+      t1.status,
+      t1.category,
+      t1.created_data,
+      t2.email,
+      t2.buy_date,
+      t2.id,
+      t2.count
+    FROM $table1 AS t1 
+    JOIN $table2 AS t2  ON t1.id = t2.id
+    AND  t2.buy_date = $buy_date";
+   $query = $connection ->prepare($sql);
+   $query -> execute();
+   dbCheckError($query);
+   return $query->fetchAll();
+}
+function selectAllFromOrderWithCart($table1,$table2){
    global $connection;
    $sql = "SELECT 
       t1.id,
@@ -270,7 +320,8 @@ function selectAllFromPostsWithCart($table1,$table2,$buy_date,$email){
       t1.price,
       t1.status,
       t1.category,
-      t2.email
+      t2.email,
+      t2.count
     FROM $table1 AS t1 
     Inner JOIN $table2 AS t2  ON t1.id = t2.id
     AND t2.buy_date = $buy_date

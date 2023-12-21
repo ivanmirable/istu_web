@@ -22,6 +22,7 @@ else{
 }
 
 
+
 //Создание категории
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-create'])) {
     $name = trim($_POST['name']);//trim удаляет пробелы
@@ -113,18 +114,16 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
         'email'=>$user['email'],
         'buy_date'=>$_SESSION['buy_date'],
     ];
-    if (selectOne('cart',$cartFilter) && selectOne('ordep',['email'=>$user['email']]) ) {
-        echo "Я тут";
-        if(selectOne('cart',['id'=>$id])){
-         $count = selectOne('cart',['id'=>$id]);
-         $idCart = update('cart',$id,['count'=>$count['count']+1]);
-        }
-        else{
-         $idCart = update('cart',$id,['count'=>1]);
+    if (selectOne('cart',$cartFilter) && selectOne('ordep',['buy_date'=>$_SESSION['buy_date']]) ) {
+
+        if(selectOne('cart',['id'=>$id, 'buy_date'=>$_SESSION['buy_date']])){
+         $count = selectOne('cart',['id'=>$id,'buy_date'=>$_SESSION['buy_date']]);
+         $idCart = UpdateCartCount('cart',$id,['count'=>$count['count']+1],$_SESSION['buy_date']);
         }
     }
     else{
     if ($order === '') {
+
         $order = [
             'email' => $user['email'],
             'buy_date'=>$_SESSION['buy_date'],
@@ -134,15 +133,19 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
             'email' => $user['email'],
             'buy_date'=> $_SESSION['buy_date'],
             'id'=>$id,
+            'count'=>1
           ];
           $id = Insert('ordep',$order);
           $idCart = Insert('cart',$orderCart);
     }
     else{
+
+
         $orderCart = [
             'email' => $user['email'],
             'buy_date'=>$_SESSION['buy_date'],
             'id'=>$id,
+            'count'=>1
         ];
      
           $idCart = Insert('cart',$orderCart);
@@ -160,8 +163,31 @@ else{
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deleted_id'])) {
     $id = $_GET['deleted_id'];
     $user = selectOne('user',['id'=>$_SESSION['id']]);
-    DeleteCart('cart',$id,$user['email']);
+    $buy_date = (string)$_SESSION['buy_date'];
+    DeleteCart('cart',$id,$user['email'],$buy_date);
     header('location:' . BASE_URL . '1.php');
+}
+//управление количеством товара
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['upcount_id'])) {
+
+    $id = $_GET['upcount_id'];
+    $user = selectOne('user',['id'=>$_SESSION['id']]);
+    $count = selectOne('cart',['id'=>$id,'buy_date'=>$_SESSION['buy_date']]);
+   $idCart = UpdateCartCount('cart',$id,['count'=>$count['count']+1],$_SESSION['buy_date']);
+    header('location:' . BASE_URL . '1.php');
+}
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['downcount_id'])) {
+
+    $id = $_GET['downcount_id'];
+    $user = selectOne('user',['id'=>$_SESSION['id']]);
+    $count = selectOne('cart',['id'=>$id,'buy_date'=>$_SESSION['buy_date']]);
+    if ($count['count']<=1) {
+        $errMsg = "Минимальное допустимое количество товара";
+    }
+    else{
+    $idCart = UpdateCartCount('cart',$id,['count'=>$count['count']-1],$_SESSION['buy_date']);
+    header('location:' . BASE_URL . '1.php');
+    }
 }
 //Оформление заказа
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_button'])) {

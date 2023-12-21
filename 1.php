@@ -6,7 +6,14 @@ $cart = selectAll('cart');
 $buy_date = (string)$_SESSION['buy_date'];
 $email = selectOne('user',['id'=>$_SESSION['id']]);
 $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
-
+$sum = 0;
+foreach($posts as $post){
+  $sum = $sum + $post['price']*$post['count'];
+}
+$count = 0;
+foreach($posts as $post){
+  $count = $count + $post['count'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -80,14 +87,13 @@ $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
     <div class="product__count">
         <div class="count">
             <div class="count__box">
-                <input type="number" class="count_input" min="1" max="100" value="1" id="inp2" data-counter>
+                <input type="number" class="count_input" min="1" max="100" value="<?=$post['count']?>" id="inp2" data-counter>
             </div>
             <div class="count__controls">
                 <button class="count__up" type="button" data-action="up">
-                    <img src="./img/image_4.png" alt="Increase" id="up__img">
-                </button>
+                <a href="index.php?upcount_id=<?=$post['id'];?>"> <img src="./img/image_4.png" alt="Increase" id="up__img"></a></button>
                 <button class="count__down" type="button" data-action="down">
-                   <img src="./img/image_5.jpg" alt="Decrease" id = "down__img" >
+                  <a href="index.php?downcount_id=<?=$post['id'];?>"><img src="./img/image_5.jpg" alt="Decrease" id = "down__img" ></a> 
                 </button>
             </div>
         </div>
@@ -100,13 +106,14 @@ $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
     </div>
     </section>
     <?php endforeach;?>
+    <p><?=$errMsg?></p>
     <div class = "order">
       <button type="button" class="btn btn-primary"><a href="order.php">Оформить заказ</a></button>
     </div>
       </div>
       <div class="cart-footer">
-        <div class="cart-footer__count">3</div>
-        <div class="cart-footer__price">0</div>
+        <div class="cart-footer__count"><?=$count?></div>
+        <div class="cart-footer__price"><?=$sum?></div>
       </div>
     </div>
 

@@ -7,7 +7,15 @@ $buy_date = (string)$_SESSION['buy_date'];
 $email = selectOne('user',['id'=>$_SESSION['id']]);
 $posts = selectAllFromPostsWithCart('posts','cart',$buy_date,$email['email']);
 $adress = selectAll('pick_up_point');
-$pays = selectAll('pay_method')
+$pays = selectAll('pay_method');
+$sum = 0;
+foreach($posts as $post){
+  $sum = $sum + $post['price']*$post['count'];
+}
+$count = 0;
+foreach($posts as $post){
+  $count = $count + $post['count'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -81,14 +89,14 @@ $pays = selectAll('pay_method')
     <div class="product__count">
         <div class="count">
             <div class="count__box">
-                <input type="number" class="count_input" min="1" max="100" value="1" id="inp2" data-counter>
+                <input type="number" class="count_input" min="1" max="100" value="<?=$post['count']?>" id="inp2" data-counter>
             </div>
             <div class="count__controls">
-                <button class="count__up" type="button" data-action="up">
-                    <img src="./img/image_4.png" alt="Increase" id="up__img">
+                <button class="count__up" name = "count_up" type="button" data-action="up">
+                   <a href="index.php?upcount_id=<?=$post['id'];?>"> <img src="./img/image_4.png" alt="Increase" id="up__img"></a>
                 </button>
                 <button class="count__down" type="button" data-action="down">
-                   <img src="./img/image_5.jpg" alt="Decrease" id = "down__img" >
+                <a href="index.php?downcount_id=<?=$post['id'];?>"><img src="./img/image_5.jpg" alt="Decrease" id = "down__img" ></a> 
                 </button>
             </div>
         </div>
@@ -104,8 +112,8 @@ $pays = selectAll('pay_method')
     
       </div>
       <div class="cart-footer">
-        <div class="cart-footer__count">3</div>
-        <div class="cart-footer__price">0</div>
+      <div class="cart-footer__count"><?=$count?></div>
+        <div class="cart-footer__price"><?=$sum?></div>
       </div>
     </div>
 <form action="order.php" method="post">
@@ -130,9 +138,6 @@ $pays = selectAll('pay_method')
       <button type="submit" name ="pay_button" class="btn btn-primary">Оплатить</button>
     </div>
 </form>
-
-
-
 
     <div class="footer container-fluid">
       <div class="footer-content container">
