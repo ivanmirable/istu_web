@@ -270,7 +270,7 @@ function DeleteCart($table,$id,$email,$buy_date){
     
 }
 // Выборка записей(товары) с автором в админку
-function selectAllFromPostsWithUsers($table1,$table2,$buy_date){
+function selectAllFromOrderWithCart($table1,$table2,$buy_date){
    global $connection;
    $sql = "SELECT 
       t1.id,
@@ -292,7 +292,7 @@ function selectAllFromPostsWithUsers($table1,$table2,$buy_date){
    dbCheckError($query);
    return $query->fetchAll();
 }
-function selectAllFromOrderWithCart($table1,$table2){
+function selectAllFromPostsWithUsers($table1,$table2){
    global $connection;
    $sql = "SELECT 
       t1.id,

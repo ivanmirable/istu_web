@@ -2,7 +2,7 @@
 <?php session_start();
 include("../../path.php");
 include("../../controllers/cart.php");
-$carts = selectAllFromPostsWithUsers('posts','cart',$_GET['buy_date']);
+$carts = selectAllFromOrderWithCart('posts','cart',$_GET['buy_date']);
 
 ?>
 <!doctype html>
@@ -43,22 +43,17 @@ $carts = selectAllFromPostsWithUsers('posts','cart',$_GET['buy_date']);
                     <div class="col-2">Название</div>
                 </div>
                 <?php foreach($carts as $key=> $cart):?>
-
                 <div class="row post">
                     <div class="id col-2"><?=$cart['email']?></div>
                     <div class="tittle col-4"><?=$cart['buy_date'];?></div>
                     <div class="price col-2"><?=$cart['id'];?></div>
                     <div class="price col-2"><?=$cart['count'];?></div>
                     <div class="price col-2"><?=$cart['tittle'];?></div>
-
-
- 
                 </div>
                 <?php endforeach;?>
             </div>
         </div>
     </div>
-
   <?php include("../../include/footer.php");?>
   </div>
  
