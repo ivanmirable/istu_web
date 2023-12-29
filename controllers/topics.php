@@ -21,8 +21,6 @@ else{
     $order = '';
 }
 
-
-
 //Создание категории
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-create'])) {
     $name = trim($_POST['name']);//trim удаляет пробелы
@@ -98,10 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['del_id'])) {
     $id = $_GET['del_id'];
     Delete('category',$_GET['del_id']);
     header('location:' . BASE_URL . 'admin/topics/index.php');
-
 }
 
 //Добавление в корзину товара(поста)
+if (!empty($_SESSION['id'])) {
 if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
     $id = $_POST['id'];
     $post = selectOne('posts',['id'=> $id]);
@@ -139,8 +137,6 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_cart_button']) ) {
           $idCart = Insert('cart',$orderCart);
     }
     else{
-
-
         $orderCart = [
             'email' => $user['email'],
             'buy_date'=>$_SESSION['buy_date'],
@@ -215,6 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_button'])) {
       ];
       $r = UpdateForOrdep('ordep',$email['email'],$ordep,$buy_date);
        $_SESSION['buy_date'] = time();
+       Update('user',$_SESSION['id'],['current_cart'=>$_SESSION['buy_date']]);
           $order = [
               'email' => $email['email'],
               'buy_date'=> $_SESSION['buy_date'],
@@ -226,4 +223,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_button'])) {
     }
  
 }
-
+}

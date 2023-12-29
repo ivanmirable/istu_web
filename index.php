@@ -84,7 +84,7 @@ $posts = selectAll('posts', ['status'=>1]);
                       <!-- Изображение-ссылка товара -->
                       <a href="#" class="card__image">
                         <img
-                          src="<?=BASE_URL . 'img/posts/' . $post['img'];?>"
+                          src="<?=BASE_URL . 'img/' . $post['img'];?>"
                           alt="<?=$post['tittle'];?>"
                         />
                       </a>
@@ -252,7 +252,7 @@ $posts = selectAll('posts', ['status'=>1]);
           <div class="sidebar col-md-3 col-12">
             <div class="section search">
               <h3>Поиск</h3>
-              <form action="/" method="post">
+              <form action="search.php" method="post">
                 <input type="text" name="search-term" class="text-input" placeholder="Search...">
               </form>
             </div>

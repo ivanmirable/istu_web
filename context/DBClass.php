@@ -1,9 +1,9 @@
 <?php
 class DBClass{
- private $host = "localhost";
- private $db_name = "test_db";
- private $db_user = "root";
- private $db_pass = "";
+ private $host = "2070010";
+ private $db_name = "j95083k0_shop_db";
+ private $db_user = "j95083k0";
+ private $db_pass = "LJGGoGbXV8bs";
 
 
  private $link;

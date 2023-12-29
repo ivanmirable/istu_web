@@ -42,7 +42,6 @@ include("../../controllers/posts.php");
              
                 </div>
                 <?php foreach($postsAdm as $key=> $post):?>
-
                 <div class="row post">
                     <div class="id col-1"><?=$key+1;?></div>
                     <div class="tittle col-4"><?=$post['tittle'];?></div>

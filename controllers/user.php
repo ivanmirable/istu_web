@@ -47,14 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button-reg'])) {
             'admin' => $admin,
             'username' => $login,
             'email' => $email,
-            'password'=> $pass
+            'password'=> $pass,
+            'current_cart'=>time()
           ];
         $id = Insert('user',$post);
         $user = selectOne('user',['id'=>$id]);
         $_SESSION['id'] = $user['id'];
         $_SESSION['login'] = $user['username'];
         $_SESSION['admin'] = $user['admin'];
-        $_SESSION['buy_date'] = time();
+        $_SESSION['buy_date'] = $user['current_cart'];
         if ($_SESSION['admin']) {
             header('location:'. BASE_URL . "admin/posts/index.php");
         }
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['button-log'])) {
             $_SESSION['id'] = $existance['id'];
             $_SESSION['login'] = $existance['username'];
             $_SESSION['admin'] = $existance['admin'];
-    
+            $_SESSION['buy_date'] = $existance['current_cart'];
             if ($_SESSION['admin']) {
                 header('location:'. BASE_URL . "admin/posts/index.php");
             }

@@ -35,8 +35,18 @@ function selectAll($table,$params =[]){
    $date = $query->fetchAll();
   return $date;
 }
+// поиск по заголовкам
+function search($text,$table){
+   $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
+   global $connection;
+   $sql = "SELECT * FROM $table   where status=1 AND tittle LIKE '%$text%' ";
 
-
+   $query = $connection->prepare($sql);
+   $query->execute();
+  dbCheckError($query);
+   $date = $query->fetchAll();
+  return $date;
+}
 // запрос на получение одной строки с выбранной одной таблицы
 function selectOne($table,$params =[]){
    global $connection;
@@ -136,7 +146,6 @@ function Insert($table, $params){
    dbCheckError($query);
     return $connection->lastInsertId();
 }
-
 
 //обновление данных
 function Update($table, $id, $params){
